@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Fahrzeugliste</title>
+</head>
+<body>
+    <h1>Fahrzeugliste</h1>
+    <div id="vehicleList">Lade Fahrzeuge...</div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            fetch('/fahrzeuge/vehicles')
+                .then(response => response.json())
+                .then(data => {
+                    const vehicleList = document.getElementById('vehicleList');
+                    vehicleList.innerHTML = ''; // Bereinigt den initialen Ladetext
+                    data.forEach(vehicle => {
+                        const vehicleItem = document.createElement('div');
+                        vehicleItem.textContent = `ID: ${vehicle[0]}, Hersteller: ${vehicle[1]}, Modell: ${vehicle[2]}`; // Beispielhafte Darstellung
+                        vehicleList.appendChild(vehicleItem);
+                    });
+                })
+                .catch(error => {
+                    console.error('Fehler beim Laden der Fahrzeuge:', error);
+                    document.getElementById('vehicleList').textContent = 'Fehler beim Laden der Fahrzeuge.';
+                });
+        });
+    </script>
+</body>
+</html>

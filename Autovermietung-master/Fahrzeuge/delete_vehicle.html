@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Fahrzeugliste</title>
+</head>
+<body>
+    <h1>Fahrzeugliste</h1>
+    <div id="vehicleList">
+        <!-- Beispiel für Fahrzeugliste. Jedes Fahrzeug sollte dynamisch mit Daten aus Ihrer Datenbank gelistet werden -->
+        <div>
+            Fahrzeug 1 - <button onclick="deleteVehicle(1)">Löschen</button>
+        </div>
+        <div>
+            Fahrzeug 2 - <button onclick="deleteVehicle(2)">Löschen</button>
+        </div>
+        <!-- Weitere Fahrzeuge -->
+    </div>
+
+    <script>
+        function deleteVehicle(fahrzeugId) {
+            if (confirm('Sind Sie sicher, dass Sie dieses Fahrzeug löschen möchten?')) {
+                fetch('/fahrzeuge/delete_vehicle/' + fahrzeugId, {
+                    method: 'DELETE',
+                })
+                .then(response => response.json())
+                .then(data => {
+                    alert(data.message || data.error);
+                    if (data.message) {
+                        window.location.reload(); // Seite neu laden, um die Liste zu aktualisieren
+                    }
+                })
+                .catch(error => console.error('Fehler:', error));
+            }
+        }
+    </script>
+</body>
+</html>

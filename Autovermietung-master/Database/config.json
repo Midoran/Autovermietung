@@ -1,0 +1,7 @@
+{
+    "DATABASE_USER": "Vermietung",
+    "DATABASE_PASSWORD": "Gruppe4",
+    "DATABASE_HOST": "h2922093.stratoserver.net",
+    "DATABASE_PORT": "1521",
+    "DATABASE_SERVICE": "orcl.stratoserver.net"
+}

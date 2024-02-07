@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Fahrzeug aktualisieren</title>
+</head>
+<body>
+    <h1>Fahrzeug aktualisieren</h1>
+    <form id="updateVehicleForm">
+        <!-- Verstecktes Feld für die Fahrzeug-ID, wenn notwendig -->
+        <input type="hidden" name="fahrzeug_id" value="123"> <!-- Beispielwert -->
+        <input type="number" name="standort_id" placeholder="Standort-ID" required>
+        <input type="text" name="hersteller" placeholder="Hersteller" required>
+        <input type="text" name="modell" placeholder="Modell" required>
+        <input type="number" name="baujahr" placeholder="Baujahr" required>
+        <input type="checkbox" name="verfuegbarkeit"> Verfügbarkeit<br>
+        <input type="text" name="preis" placeholder="Preis" required>
+        <input type="number" name="kilometerstand" placeholder="Kilometerstand" required>
+        <input type="text" name="kennzeichen" placeholder="Kennzeichen" required>
+        <input type="text" name="fahrzeugklasse" placeholder="Fahrzeugklasse" required>
+        <button type="submit">Fahrzeug aktualisieren</button>
+    </form>
+
+    <script>
+        document.getElementById('updateVehicleForm').addEventListener('submit', function(e) {
+            e.preventDefault(); // Verhindert das Neuladen der Seite beim Absenden des Formulars
+            
+            var fahrzeugId = document.querySelector('[name="fahrzeug_id"]').value; // Fahrzeug-ID aus dem versteckten Feld
+            
+            var formData = {
+                standort_id: document.querySelector('[name="standort_id"]').value,
+                hersteller: document.querySelector('[name="hersteller"]').value,
+                modell: document.querySelector('[name="modell"]').value,
+                baujahr: parseInt(document.querySelector('[name="baujahr"]').value),
+                verfuegbarkeit: document.querySelector('[name="verfuegbarkeit"]').checked,
+                preis: document.querySelector('[name="preis"]').value,
+                kilometerstand: parseInt(document.querySelector('[name="kilometerstand"]').value),
+                kennzeichen: document.querySelector('[name="kennzeichen"]').value,
+                fahrzeugklasse: document.querySelector('[name="fahrzeugklasse"]').value,
+            };
+            
+            // Sendet eine PUT-Anfrage an den Flask-Endpoint
+            fetch('/fahrzeuge/update_vehicle/' + fahrzeugId, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(formData),
+            })
+            .then(response => response.json())
+            .then(data => {
+                alert(data.message || data.error); // Einfache Rückmeldung für den Benutzer
+            })
+            .catch(error => console.error('Fehler:', error));
+        });
+    </script>
+</body>
+</html>
