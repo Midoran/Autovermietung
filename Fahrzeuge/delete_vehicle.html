@@ -1,0 +1,56 @@
+/*
+Dieses Dokument bietet eine einfache Benutzeroberfläche zur Anzeige und Verwaltung einer Liste von Fahrzeugen. 
+Jedes Fahrzeug wird mit einem entsprechenden "Löschen"-Button versehen. Klickt der Benutzer auf diesen Button, 
+wird eine Funktion deleteVehicle aufgerufen, die eine Bestätigung anfordert und bei Zustimmung eine HTTP-DELETE-Anfrage an den Server sendet, 
+um das Fahrzeug mit der spezifizierten ID zu löschen. Bei erfolgreicher Löschung wird dem Benutzer eine Nachricht angezeigt 
+und die Seite neu geladen, um die aktualisierte Liste anzuzeigen.
+*/
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Fahrzeugliste</title>
+</head>
+<body>
+    <!-- Überschrift für die Seite -->
+    <h1>Fahrzeugliste</h1>
+    <!-- Container für die Auflistung der Fahrzeuge -->
+    <div id="vehicleList">
+        <!-- Beispielhafte Darstellung von Fahrzeugen. In einer realen Anwendung würden diese dynamisch generiert. -->
+        <div>
+            Fahrzeug 1 - <button onclick="deleteVehicle(1)">Löschen</button>
+        </div>
+        <div>
+            Fahrzeug 2 - <button onclick="deleteVehicle(2)">Löschen</button>
+        </div>
+        <!-- Platz für weitere Fahrzeuge -->
+    </div>
+
+    <script>
+        /**
+         * Funktion zum Löschen eines Fahrzeugs.
+         * @param {number} fahrzeugId - Die ID des zu löschenden Fahrzeugs.
+         */
+        function deleteVehicle(fahrzeugId) {
+            // Bestätigungsdialog, um sicherzustellen, dass der Benutzer das Fahrzeug wirklich löschen möchte
+            if (confirm('Sind Sie sicher, dass Sie dieses Fahrzeug löschen möchten?')) {
+                // Sendet eine DELETE-Anfrage an den Server, um das Fahrzeug zu löschen
+                fetch('/fahrzeuge/delete_vehicle/' + fahrzeugId, {
+                    method: 'DELETE',
+                })
+                .then(response => response.json()) // Verarbeitet die Antwort als JSON
+                .then(data => {
+                    // Zeigt eine Nachricht mit dem Ergebnis der Löschaktion an
+                    alert(data.message || data.error);
+                    // Wenn das Löschen erfolgreich war, Seite neu laden, um die Liste zu aktualisieren
+                    if (data.message) {
+                        window.location.reload();
+                    }
+                })
+                .catch(error => console.error('Fehler:', error)); // Fängt und meldet Fehler
+            }
+        }
+    </script>
+</body>
+</html>

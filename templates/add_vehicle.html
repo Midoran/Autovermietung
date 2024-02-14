@@ -1,0 +1,50 @@
+<!-- HTML Formular für das Hinzufügen von Fahrzeugen -->
+<form id="vehicleForm">
+    <input type="number" name="standort_id" placeholder="Standort-ID" required>
+    <input type="text" name="hersteller" placeholder="Hersteller" required>
+    <input type="text" name="modell" placeholder="Modell" required>
+    <input type="number" name="baujahr" placeholder="Baujahr" required>
+    <!-- Checkbox für die Verfügbarkeit. Wenn geprüft, gilt das Fahrzeug als verfügbar. -->
+    <input type="checkbox" name="verfuegbarkeit"> Verfügbarkeit<br>
+    <input type="text" name="preis" placeholder="Preis" required>
+    <input type="number" name="kilometerstand" placeholder="Kilometerstand" required>
+    <input type="text" name="kennzeichen" placeholder="Kennzeichen" required>
+    <input type="text" name="fahrzeugklasse" placeholder="Fahrzeugklasse" required>
+    <button type="submit">Fahrzeug hinzufügen</button>
+</form>
+
+<script>
+// Fügt dem Formular einen EventListener für das 'submit'-Ereignis hinzu
+document.getElementById('vehicleForm').addEventListener('submit', function(e) {
+    e.preventDefault(); // Verhindert das Standardverhalten des Formulars, die Seite neu zu laden
+
+    // Erstellt ein Objekt mit den eingegebenen Formulardaten
+    var formData = {
+        standort_id: document.querySelector('[name="standort_id"]').value,
+        hersteller: document.querySelector('[name="hersteller"]').value,
+        modell: document.querySelector('[name="modell"]').value,
+        baujahr: parseInt(document.querySelector('[name="baujahr"]').value),
+        // Überprüft die Checkbox und setzt den Wert entsprechend
+        verfuegbarkeit: document.querySelector('[name="verfuegbarkeit"]').checked ? 'J' : 'N',
+        preis: document.querySelector('[name="preis"]').value,
+        kilometerstand: parseInt(document.querySelector('[name="kilometerstand"]').value),
+        kennzeichen: document.querySelector('[name="kennzeichen"]').value,
+        fahrzeugklasse: document.querySelector('[name="fahrzeugklasse"]').value,
+    };
+
+    // Sendet eine POST-Anfrage an den Server mit den Formulardaten im JSON-Format
+    fetch('/add_vehicle', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+    })
+    .then(response => response.json()) // Wandelt die Serverantwort in JSON um
+    .then(data => {
+        console.log(data); // Zeigt die Antwort in der Konsole an
+    })
+    .catch(error => console.error('Fehler:', error)); // Fängt und zeigt Fehler im Falle eines Fehlschlags an
+});
+</script>
+

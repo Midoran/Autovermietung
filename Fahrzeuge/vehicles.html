@@ -1,0 +1,53 @@
+/*
+Diese Seite macht Gebrauch von Ajax, um asynchron Daten von einem Server-Endpunkt abzurufen (/fahrzeuge/vehicles).
+Sobald die Daten empfangen werden, wird der Inhalt des vehicleList-Divs aktualisiert, um die Fahrzeuge zu listen.
+Jedes Fahrzeug wird durch ein eigenes Div-Element repräsentiert, das einfache Informationen wie ID, Hersteller und Modell enthält.
+Im Fehlerfall wird eine entsprechende Nachricht angezeigt.
+Dieser Ansatz ermöglicht eine Benutzeroberfläche, die sich dynamisch an die verfügbaren Daten anpasst,
+ohne dass die Seite neu geladen werden muss. Es bietet eine saubere Trennung zwischen der Struktur der Seite (HTML),
+ihrer Präsentation (CSS, nicht im Beispiel enthalten) und der Logik zur Datenmanipulation (JavaScript).
+*/
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Fahrzeugliste</title>
+</head>
+<body>
+    <!-- Überschrift für die Seite -->
+    <h1>Fahrzeugliste</h1>
+    <!-- Container für die Fahrzeugliste, initial mit einem Ladetext versehen -->
+    <div id="vehicleList">Lade Fahrzeuge...</div>
+
+    <script>
+        // Fügt einen Event Listener hinzu, der ausgeführt wird, sobald das DOM vollständig geladen ist
+        document.addEventListener('DOMContentLoaded', function() {
+            // Sendet eine Anfrage an den Server, um die Liste der Fahrzeuge zu erhalten
+            fetch('/fahrzeuge/vehicles')
+                .then(response => response.json()) // Wandelt die Antwort in ein JSON-Objekt um
+                .then(data => {
+                    // Zugriff auf den Container für die Fahrzeugliste im DOM
+                    const vehicleList = document.getElementById('vehicleList');
+                    vehicleList.innerHTML = ''; // Bereinigt den initialen Ladetext
+
+                    // Durchläuft jedes Fahrzeug im erhaltenen Datenarray
+                    data.forEach(vehicle => {
+                        // Erstellt ein neues Div-Element für jedes Fahrzeug
+                        const vehicleItem = document.createElement('div');
+                        // Setzt den Text des Elements, um die Fahrzeugdaten anzuzeigen
+                        vehicleItem.textContent = `ID: ${vehicle[0]}, Hersteller: ${vehicle[1]}, Modell: ${vehicle[2]}`; // Beispielhafte Darstellung
+                        // Fügt das Fahrzeugelement zum Fahrzeuglistencontainer hinzu
+                        vehicleList.appendChild(vehicleItem);
+                    });
+                })
+                .catch(error => {
+                    // Fängt Fehler ab, die während des Fetch-Vorgangs auftreten
+                    console.error('Fehler beim Laden der Fahrzeuge:', error);
+                    // Zeigt eine Fehlermeldung an, falls die Fahrzeugdaten nicht geladen werden können
+                    document.getElementById('vehicleList').textContent = 'Fehler beim Laden der Fahrzeuge.';
+                });
+        });
+    </script>
+</body>
+</html>

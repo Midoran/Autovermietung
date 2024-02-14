@@ -1,0 +1,73 @@
+/*
+Dieses Dokument ermöglicht es Benutzern, Fahrzeugdaten über ein Webformular zu aktualisieren. 
+Beim Absenden des Formulars wird ein JavaScript-Event-Listener ausgelöst, der die Standardaktion 
+des Formulars (das Neuladen der Seite) verhindert und stattdessen eine PUT-Anfrage an einen Server sendet. 
+Diese Anfrage beinhaltet alle aktualisierten Fahrzeugdaten im JSON-Format. 
+Auf dem Server müsste ein entsprechender Endpunkt exist
+*/
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Fahrzeug aktualisieren</title>
+</head>
+<body>
+    <!-- Überschrift für die Seite -->
+    <h1>Fahrzeug aktualisieren</h1>
+    <!-- Formular zum Erfassen von Fahrzeugdaten, die aktualisiert werden sollen -->
+    <form id="updateVehicleForm">
+        <!-- Verstecktes Feld für die Fahrzeug-ID, die als Identifikator beim Aktualisieren verwendet wird -->
+        <input type="hidden" name="fahrzeug_id" value="123"> <!-- Beispielwert, sollte dynamisch geladen werden -->
+        <input type="number" name="standort_id" placeholder="Standort-ID" required>
+        <input type="text" name="hersteller" placeholder="Hersteller" required>
+        <input type="text" name="modell" placeholder="Modell" required>
+        <input type="number" name="baujahr" placeholder="Baujahr" required>
+        <!-- Checkbox für die Verfügbarkeit des Fahrzeugs; ist sie markiert, gilt das Fahrzeug als verfügbar -->
+        <input type="checkbox" name="verfuegbarkeit"> Verfügbarkeit<br>
+        <input type="text" name="preis" placeholder="Preis" required>
+        <input type="number" name="kilometerstand" placeholder="Kilometerstand" required>
+        <input type="text" name="kennzeichen" placeholder="Kennzeichen" required>
+        <input type="text" name="fahrzeugklasse" placeholder="Fahrzeugklasse" required>
+        <button type="submit">Fahrzeug aktualisieren</button>
+    </form>
+
+    <script>
+        // Fügt dem Formular einen Event-Listener hinzu, der bei der Einreichung aktiviert wird
+        document.getElementById('updateVehicleForm').addEventListener('submit', function(e) {
+            e.preventDefault(); // Verhindert das Neuladen der Seite beim Absenden des Formulars
+            
+            // Sammelt die Daten aus dem Formular
+            var fahrzeugId = document.querySelector('[name="fahrzeug_id"]').value; // Liest die Fahrzeug-ID aus
+            
+            // Erstellt ein Objekt mit den Formulardaten
+            var formData = {
+                standort_id: document.querySelector('[name="standort_id"]').value,
+                hersteller: document.querySelector('[name="hersteller"]').value,
+                modell: document.querySelector('[name="modell"]').value,
+                baujahr: parseInt(document.querySelector('[name="baujahr"]').value),
+                verfuegbarkeit: document.querySelector('[name="verfuegbarkeit"]').checked ? 'J' : 'N', // Wandelt die Checkbox in einen Wert um
+                preis: document.querySelector('[name="preis"]').value,
+                kilometerstand: parseInt(document.querySelector('[name="kilometerstand"]').value),
+                kennzeichen: document.querySelector('[name="kennzeichen"]').value,
+                fahrzeugklasse: document.querySelector('[name="fahrzeugklasse"]').value,
+            };
+            
+            // Sendet die Daten asynchron an den Server mittels einer PUT-Anfrage
+            fetch('/fahrzeuge/update_vehicle/' + fahrzeugId, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(formData),
+            })
+            .then(response => response.json()) // Verarbeitet die Antwort des Servers
+            .then(data => {
+                // Zeigt eine Nachricht basierend auf der Antwort
+                alert(data.message || data.error); // Einfache Rückmeldung für den Benutzer
+            })
+            .catch(error => console.error('Fehler:', error)); // Fängt mögliche Fehler im Fetch-Vorgang ab
+        });
+    </script>
+</body>
+</html>
