@@ -12,11 +12,33 @@
         button { padding: 10px; background-color: #007bff; color: white; border: none; cursor: pointer; }
         button:hover { background-color: #0056b3; }
     </style>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
 </head>
 <body>
+<header class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom">
+      <div class="col-md-3 mb-2 mb-md-0">
+        <a href="/" class="d-inline-flex link-body-emphasis text-decoration-none">
+          <svg class="bi" width="40" height="32" role="img" aria-label="Bootstrap"><use xlink:href="#bootstrap"></use></svg>
+        </a>
+      </div>
+
+      <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
+        <li><a href="index.html" class="nav-link px-2 link-secondary">Home</a></li>
+        <li><a href="search.html" class="nav-link px-2">Autosuchen</a></li>
+        <li><a href="list.html" class="nav-link px-2">Preisliste</a></li>
+        <li><a href="faq.html" class="nav-link px-2">FAQ</a></li>
+        <li><a href="introduction.html" class="nav-link px-2">Über uns</a></li>
+      </ul>
+
+      <div class="col-md-3 text-end">
+        <button type="button" class="btn btn-outline-primary me-2"><a href="login.html" class="nav-link px-2 link-secondary">Einloggen</a></button>
+        <button type="button" class="btn btn-primary"><a href="registration.html" class="nav-link px-2">Registrieren</a></button>
+      </div>
+    </header>
     <div class="container">
         <h2>Login</h2>
-        <form action="/login" method="POST">
+        <form action="index.html" method="POST">
             <label for="username">Benutzername:</label>
             <input type="text" id="username" name="username" required>
 
@@ -26,5 +48,9 @@
             <button type="submit">Einloggen</button>
         </form>
     </div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.0.8/dist/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>

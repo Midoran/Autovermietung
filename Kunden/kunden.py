@@ -59,3 +59,14 @@ def populate_kunden():
     ]
     for kunde in kunden:
         add_kunde(*kunde)
+
+def authenticate_kunde(email, passwort):
+    conn = connect_to_database()
+    cursor = conn.cursor()
+
+    query = "SELECT * FROM Kunden WHERE Email = :1 AND Passwort = :2"
+    cursor.execute(query, (email, passwort))
+    kunde = cursor.fetchone()
+
+    conn.close()
+    return kunde

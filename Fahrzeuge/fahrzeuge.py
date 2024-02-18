@@ -113,3 +113,13 @@ def populate_vehicles():
 
     for vehicle in vehicles:
         add_vehicle(*vehicle)
+
+def search_vehicles(rental_date, location):
+    # Implement your logic to search for vehicles based on rental_date and location
+    # This might involve querying a database or some other data source
+
+    # For example, assuming you have a list of vehicles, you can filter them:
+    filtered_vehicles = [vehicle for vehicle in get_vehicles() if
+                         vehicle['rental_date'] == rental_date and vehicle['location'] == location]
+
+    return filtered_vehicles

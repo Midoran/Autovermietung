@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reservierung</title>
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+
+<body>
+<header class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom">
+      <div class="col-md-3 mb-2 mb-md-0">
+        <a href="/" class="d-inline-flex link-body-emphasis text-decoration-none">
+          <svg class="bi" width="40" height="32" role="img" aria-label="Bootstrap"><use xlink:href="#bootstrap"></use></svg>
+        </a>
+      </div>
+
+      <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
+        <li><a href="index.html" class="nav-link px-2 link-secondary">Home</a></li>
+        <li><a href="search.html" class="nav-link px-2">Autosuchen</a></li>
+        <li><a href="list.html" class="nav-link px-2">Preisliste</a></li>
+        <li><a href="faq.html" class="nav-link px-2">FAQ</a></li>
+        <li><a href="introduction.html" class="nav-link px-2">Über uns</a></li>
+      </ul>
+
+      <div class="col-md-3 text-end">
+        <button type="button" class="btn btn-outline-primary me-2"><a href="login.html" class="nav-link px-2 link-secondary">Einloggen</a></button>
+        <button type="button" class="btn btn-primary"><a href="registration.html" class="nav-link px-2">Registrieren</a></button>
+      </div>
+    </header>
+    <div class="container mt-5">
+        <h2>Reservierung</h2>
+        <form method="POST" action="{{ url_for('submit_reservation') }}">
+
+            <div class="form-group">
+                <label for="startDate">Anfangsdatum</label>
+                <input type="date" class="form-control" id="startDate" name="startDate" required>
+            </div>
+            <div class="form-group">
+                <label for="endDate">Enddatum</label>
+                <input type="date" class="form-control" id="endDate" name="endDate" required>
+            </div>
+
+            <div class="form-group">
+                <label for="totalPrice">Gesamter Preis</label>
+                <input type="text" class="form-control" id="totalPrice" name="totalPrice" readonly>
+            </div>
+
+
+            <button type="submit" class="btn btn-primary">Reservierung einreichen</button>
+        </form>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.0.8/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <script src="reservation.js"></script>
+</body>
+
+</html>

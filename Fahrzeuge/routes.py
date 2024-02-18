@@ -2,7 +2,7 @@
 
 # Importiert benötigte Funktionen und Klassen aus der Flask-Library und die Fahrzeugverwaltungsfunktionen
 from flask import request, jsonify, Blueprint, render_template
-from Fahrzeuge.fahrzeuge import add_vehicle, get_vehicles, update_vehicle, delete_vehicle
+from Fahrzeuge.fahrzeuge import add_vehicle, get_vehicles, update_vehicle, delete_vehicle, search_vehicles
 
 # Erstellt ein Blueprint-Objekt für die Fahrzeuge, welches zur Organisation und Registrierung der Routen dient
 fahrzeuge_bp = Blueprint('fahrzeuge', __name__)
@@ -63,3 +63,15 @@ def route_delete_vehicle(fahrzeug_id):
     except Exception as e:
         # Gibt eine Fehlermeldung zurück, falls ein Fehler auftritt
         return jsonify({"error": str(e)}), 500
+
+@fahrzeuge_bp.route('/search', methods=['POST'])
+def search():
+    # Extract search parameters from the form
+    rental_date = request.form.get('rentalDate')
+    location = request.form.get('location')
+
+    # Perform the search based on the parameters
+    vehicles = search_vehicles(rental_date, location)
+
+    # Render the list.html template with the search results
+    return render_template('list.html', vehicles=vehicles)

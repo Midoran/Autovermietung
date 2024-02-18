@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registrieren</title>
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+
+<body>
+<header class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom">
+      <div class="col-md-3 mb-2 mb-md-0">
+        <a href="/" class="d-inline-flex link-body-emphasis text-decoration-none">
+          <svg class="bi" width="40" height="32" role="img" aria-label="Bootstrap"><use xlink:href="#bootstrap"></use></svg>
+        </a>
+      </div>
+
+      <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
+        <li><a href="index.html" class="nav-link px-2 link-secondary">Home</a></li>
+        <li><a href="search.html" class="nav-link px-2">Autosuchen</a></li>
+        <li><a href="list.html" class="nav-link px-2">Preisliste</a></li>
+        <li><a href="faq.html" class="nav-link px-2">FAQ</a></li>
+        <li><a href="introduction.html" class="nav-link px-2">Über uns</a></li>
+      </ul>
+
+      <div class="col-md-3 text-end">
+        <button type="button" class="btn btn-outline-primary me-2"><a href="login.html" class="nav-link px-2 link-secondary">Einloggen</a></button>
+        <button type="button" class="btn btn-primary"><a href="registration.html" class="nav-link px-2">Registrieren</a></button>
+      </div>
+    </header>
+    <div class="container mt-5">
+        <h2>Registrieren</h2>
+        <form action="registration_success.html" method="POST">
+            <div class="form-group">
+                <label for="vorname">Vorname:</label>
+                <input type="text" class="form-control" id="vorname" name="vorname" required>
+            </div>
+            <div class="form-group">
+                <label for="nachname">Nachname:</label>
+                <input type="text" class="form-control" id="nachname" name="nachname" required>
+            </div>
+            <div class="form-group">
+                <label for="passwort">Passwort:</label>
+                <input type="password" class="form-control" id="passwort" name="passwort" required>
+            </div>
+            <div class="form-group">
+                <label for="geburtstdatum">Geburtsdatum:</label>
+                <input type="date" class="form-control" id="geburtstdatum" name="geburtstdatum" required>
+            </div>
+            <div class="form-group">
+                <label for="adressePLZ">PLZ:</label>
+                <input type="number" class="form-control" id="adressePLZ" name="adressePLZ" required>
+            </div>
+            <div class="form-group">
+                <label for="adresseStrasse">Straße:</label>
+                <input type="text" class="form-control" id="adresseStrasse" name="adresseStrasse" required>
+            </div>
+            <div class="form-group">
+                <label for="adresseWohnort">Wohnort:</label>
+                <input type="text" class="form-control" id="adresseWohnort" name="adresseWohnort" required>
+            </div>
+            <div class="form-group">
+                <label for="fuehrerscheinnummer">Führerscheinnummer:</label>
+                <input type="number" class="form-control" id="fuehrerscheinnummer" name="fuehrerscheinnummer" required>
+            </div>
+            <div class="form-group">
+                <label for="fuehrerscheinklasse">Führerscheinklasse:</label>
+                <input type="text" class="form-control" id="fuehrerscheinklasse" name="fuehrerscheinklasse" required>
+            </div>
+            <div class="form-group">
+                <label for="telefonnummer">Telefonnummer:</label>
+                <input type="tel" class="form-control" id="telefonnummer" name="telefonnummer" required>
+            </div>
+            <div class="form-group">
+                <label for="email">E-mail:</label>
+                <input type="email" class="form-control" id="email" name="email" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Registrieren</button>
+        </form>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.0.8/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+
+</html>

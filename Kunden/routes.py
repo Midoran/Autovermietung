@@ -1,7 +1,7 @@
 # flake8: noqa:E501
 
-from flask import request, jsonify, Blueprint
-from Kunden.kunden import add_kunde, update_kunde, delete_kunde, get_kunden
+from flask import request, jsonify, Blueprint, redirect, url_for
+from Kunden.kunden import add_kunde, update_kunde, delete_kunde, get_kunden, authenticate_kunde
 
 kunden_bp = Blueprint('kunden', __name__)
 
@@ -34,3 +34,21 @@ def update_one_kunde(kunde_id):
 def delete_one_kunde(kunde_id):
     delete_kunde(kunde_id)
     return jsonify(message='Kunde wurde gelöscht'), 200
+
+
+@kunden_bp.route('/registration', methods=['POST'])
+def register_kunde():
+    data = request.form.to_dict()
+    add_kunde(data['vorname'], data['nachname'], data['geburtsdatum'], data['adresse_plz'], data['adresse_strasse'],
+              data['adresse_wohnort'], data['fuehrerscheinnummer'], data['fuehrerscheinklasse'], data['telefonnummer'],
+              data['email'], data['passwort'])
+    return jsonify(message='Benutzer wurde registriert'), 201
+
+@kunden_bp.route('/login', methods=['POST'])
+def login_kunde():
+    data = request.form.to_dict()
+    kunde = authenticate_kunde(data['email'], data['passwort'])
+
+    if kunde:
+         return redirect(url_for('index'))
+    return jsonify(message='Login fehlgeschlagen'), 401
