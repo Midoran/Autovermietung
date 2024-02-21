@@ -32,7 +32,7 @@
     </header>
     <div class="container mt-5">
         <h2>Registrieren</h2>
-        <form action="registration_success.html" method="POST">
+        <form action="{{ url_for('registration') }}" method="POST">
             <div class="form-group">
                 <label for="vorname">Vorname:</label>
                 <input type="text" class="form-control" id="vorname" name="vorname" required>

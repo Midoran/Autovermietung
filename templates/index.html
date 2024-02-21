@@ -26,18 +26,18 @@
 
       <div class="col-md-3 text-end">
         {% if 'user_id' in session %}
-        <a href="{{ url_for('logout') }}" class="btn btn-outline-primary me-2 link-secondary">Ausloggen</a>
-        <a href="{{ url_for('my_account') }}" class="btn btn-primary">Mein Konto</a>
+        <a href="registration.html" class="btn btn-outline-primary me-2 link-secondary">Ausloggen</a>
+        <a href="my_account.html" class="btn btn-primary">Mein Konto</a>
     {% else %}
-        <a href="{{ url_for('login') }}" class="btn btn-outline-primary me-2 link-secondary">Einloggen</a>
-        <a href="{{ url_for('registration') }}" class="btn btn-primary">Registrieren</a>
+        <a href="login.html" class="btn btn-outline-primary me-2 link-secondary">Einloggen</a>
+        <a href="registration.html" class="btn btn-primary">Registrieren</a>
     {% endif %}
       </div>
     </header>
     <div class="container col-xxl-8 px-4 py-5">
       <div class="row flex-lg-row-reverse align-items-center g-5 py-5">
         <div class="col-10 col-sm-8 col-lg-6">
-          <img src="Auto.jpg" class="d-block mx-lg-auto img-fluid" alt="Car Image" loading="lazy" width="700" height="500">
+          <img src="../static/images/Auto.jpg" class="d-block mx-lg-auto img-fluid" alt="Car Image" loading="lazy" width="700" height="500">
         </div>
         <div class="col-lg-6">
           <h1 class="display-5 fw-bold text-body-emphasis lh-1 mb-3">Willkommen zu SDJ Autovermieten!</h1>

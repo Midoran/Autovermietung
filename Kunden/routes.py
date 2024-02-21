@@ -35,19 +35,6 @@ def delete_one_kunde(kunde_id):
     delete_kunde(kunde_id)
     return jsonify(message='Kunde wurde gelöscht'), 200
 
-
-@kunden_bp.route('/registration', methods=['POST'])
-def register_kunde():
-    data = request.form.to_dict()
-    add_kunde(data['vorname'], data['nachname'], data['geburtsdatum'], data['adresse_plz'], data['adresse_strasse'],
-              data['adresse_wohnort'], data['fuehrerscheinnummer'], data['fuehrerscheinklasse'], data['telefonnummer'],
-              data['email'], data['passwort'])
-    return redirect(url_for('registration_success'))
-
-@kunden_bp.route('/registration/success')
-def registration_success():
-    return render_template('registration_success.html')
-
 @kunden_bp.route('/login', methods=['POST'])
 def login_kunde():
     data = request.form.to_dict()

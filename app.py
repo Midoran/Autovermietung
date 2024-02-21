@@ -35,11 +35,10 @@ app.register_blueprint(wartungen_bp, url_prefix='/wartungen')
 
 app.secret_key = 'IhrGeheimesSchlüssel'
 
-
 # Weiterleitung von der Wurzel-URL zur Login-Seite
 @app.route('/')
 def index():
-    return redirect(url_for('login'))
+    return render_template('index.html')
 
 # Admin-Benutzername und Passwort
 ADMIN_USERNAME = 'admin'
@@ -56,19 +55,48 @@ def login():
             return redirect(url_for('home'))
         else:
             flash('Falscher Benutzername oder Passwort!', 'danger')
-    return render_template('login.html')
-
-@app.route('/home')
-def home():
-    if not session.get('logged_in'):
-        return redirect(url_for('login'))
-    return render_template('home.html')
+    return redirect(url_for('index'))
 
 @app.route('/logout')
 def logout():
     session.pop('logged_in', None)
     flash('Sie wurden erfolgreich ausgeloggt.', 'success')
-    return redirect(url_for('login'))
+    return redirect(url_for('index'))
+
+@app.route('/search', methods=['GET', 'POST'])
+def search():
+    #after successful search
+    return redirect(url_for('list'))
+
+@app.route('/list', methods=['GET', 'POST'])
+def list():
+    return render_template('list.html')
+
+@app.route('/faq', methods=['POST'])
+def faq():
+    return render_template('faq.html')
+
+@app.route('/introduction')
+def introduction():
+    return render_template('introduction.html')
+@app.route('/reservation', methods=['POST', 'GET'])
+def reservation():
+    return redirect(url_for('index'))
+@app.route('/registration', methods=['POST'])
+def registration():
+    data = request.form.to_dict()
+    add_kunde(data['vorname'], data['nachname'], data['geburtsdatum'], data['adresse_plz'], data['adresse_strasse'],
+              data['adresse_wohnort'], data['fuehrerscheinnummer'], data['fuehrerscheinklasse'], data['telefonnummer'],
+              data['email'], data['passwort'])
+    return redirect(url_for('registration_success'))
+
+@app.route('/registration_success')
+def registration_success():
+    return render_template('registration_success.html')
+
+@app.route('/my_account')
+def my_account():
+    return redirect(url_for('my_account'))
 
 # Hauptfunktion zum Starten der Anwendung
 def main():
@@ -83,7 +111,7 @@ def main():
     #populate_wartungen()  # Fügt Wartungsdaten in die Datenbank ein
 
     # Startet die Flask-Anwendung
-    app.run(debug=False)  # 'debug=False' deaktiviert den Debug-Modus für die Produktion
+    app.run(debug=True)  # 'debug=False' deaktiviert den Debug-Modus für die Produktion
 
 # Stellt sicher, dass die Hauptfunktion ausgeführt wird, wenn das Skript direkt aufgerufen wird
 if __name__ == "__main__":
