@@ -8,7 +8,7 @@ def add_kunde(vorname, nachname, geburtsdatum, adresse_plz, adresse_strasse, adr
     cursor = conn.cursor()
 
     query = """INSERT INTO Kunden (Vorname, Nachname, Geburtsdatum, AdressePLZ, AdresseStrasse, AdresseWohnort, Fuehrerscheinnummer, Fuehrerscheinklasse, Telefonnummer, Email, Passwort) 
-               VALUES (:1, :2, TO_DATE(:3, 'DD-MM-YYYY'), :4, :5, :6, :7, :8, :9, :10, :11)"""
+               VALUES (:1, :2, TO_DATE(:3, 'YYYY-MM-DD'), :4, :5, :6, :7, :8, :9, :10, :11)"""
     cursor.execute(query, (vorname, nachname, geburtsdatum, adresse_plz, adresse_strasse, adresse_wohnort, fuehrerscheinnummer, fuehrerscheinklasse, telefonnummer, email, passwort))
 
     conn.commit()

@@ -14,19 +14,16 @@ from Standorte.routes import standorte_bp
 from Wartungen.routes import wartungen_bp
 # Importiert Funktionen zum Befüllen der Datenbank mit Startdaten für jede Ressource
 from Fahrzeuge.fahrzeuge import populate_vehicles
-from Kunden.kunden import populate_kunden
 from Mitarbeiter.mitarbeiter import populate_mitarbeiter
 from Rechnungen.rechnungen import populate_rechnungen
-from Reservierungen.reservierungen import populate_reservierungen
 from Standorte.standorte import populate_standorte
 from Wartungen.wartungen import populate_wartungen
 from Database.database import connect_to_database
-from Kunden.kunden import add_kunde, update_kunde, delete_kunde, get_kunden, authenticate_kunde
+from Kunden.kunden import add_kunde, update_kunde, delete_kunde, get_kunden, authenticate_kunde, populate_kunden
 from Reservierungen.reservierungen import add_reservierung, populate_reservierungen, update_reservierung, connect_to_database, delete_reservierung, get_reservierungen
 import json
 import cx_Oracle
 from Database.sql_statements import get_create_table_statements, get_alter_table_statements
-import os
 # Initialisiert die Flask-Anwendung
 app = Flask(__name__)
 
@@ -108,7 +105,7 @@ def registration():
               data['email'], data['passwort'])
     else:
         return render_template('registration.html')
-    return redirect(url_for('registration'))
+    return redirect(url_for('registration_success'))
 
 @app.route('/registration_success')
 def registration_success():
