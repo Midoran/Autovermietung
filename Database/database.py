@@ -9,7 +9,7 @@ from Database.sql_statements import get_create_table_statements, get_alter_table
 # Verbindet sich mit der Datenbank, indem die Konfiguration aus einer JSON-Datei gelesen wird.
 def connect_to_database():
     # Öffnet die Konfigurationsdatei, um die Verbindungsdetails zu erhalten.
-    with open('Database/config.json') as config_file:
+    with open('C:/Users/Jeongmin.Lee/Autovermietung 18.02/Autovermietung/Database/config.json') as config_file:
         config_data = json.load(config_file)
     
     # Liest die Benutzer-, Passwort-, Host-, Port- und Servicenamen aus der Konfigurationsdatei.

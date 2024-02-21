@@ -1,7 +1,7 @@
 # flake8: noqa:E501 - Ignoriert Zeilenlängenbeschränkungen für den gesamten Datei
 
 # Importiert Flask, das Framework für die Webanwendung, und verschiedene Hilfsfunktionen und Module
-from flask import Flask, render_template, request, redirect, url_for, flash, session
+from flask import Flask, render_template, request, redirect, url_for, flash, session, jsonify, Blueprint
 # Importiert die Funktion zur Einrichtung der Datenbank
 from Database.database import setup_database
 # Importiert Blueprints für die verschiedenen Ressourcen
@@ -20,7 +20,13 @@ from Rechnungen.rechnungen import populate_rechnungen
 from Reservierungen.reservierungen import populate_reservierungen
 from Standorte.standorte import populate_standorte
 from Wartungen.wartungen import populate_wartungen
-
+from Database.database import connect_to_database
+from Kunden.kunden import add_kunde, update_kunde, delete_kunde, get_kunden, authenticate_kunde
+from Reservierungen.reservierungen import add_reservierung, populate_reservierungen, update_reservierung, connect_to_database, delete_reservierung, get_reservierungen
+import json
+import cx_Oracle
+from Database.sql_statements import get_create_table_statements, get_alter_table_statements
+import os
 # Initialisiert die Flask-Anwendung
 app = Flask(__name__)
 
@@ -52,9 +58,11 @@ def login():
         if username == ADMIN_USERNAME and password == ADMIN_PASSWORD:
             session['logged_in'] = True
             flash('Sie wurden erfolgreich eingeloggt.', 'success')
-            return redirect(url_for('home'))
+            return redirect(url_for('index'))
         else:
             flash('Falscher Benutzername oder Passwort!', 'danger')
+    else:
+        return render_template('login.html')
     return redirect(url_for('index'))
 
 @app.route('/logout')
@@ -65,14 +73,13 @@ def logout():
 
 @app.route('/search', methods=['GET', 'POST'])
 def search():
-    #after successful search
-    return redirect(url_for('list'))
+    return render_template('search.html')
 
 @app.route('/list', methods=['GET', 'POST'])
 def list():
     return render_template('list.html')
 
-@app.route('/faq', methods=['POST'])
+@app.route('/faq', methods=['POST', 'GET'])
 def faq():
     return render_template('faq.html')
 
@@ -81,14 +88,27 @@ def introduction():
     return render_template('introduction.html')
 @app.route('/reservation', methods=['POST', 'GET'])
 def reservation():
-    return redirect(url_for('index'))
-@app.route('/registration', methods=['POST'])
+    if request.method == 'POST':
+        data = request.form.to_dict()
+        add_reservierung(data['Kilometerstand'], data['StartDatum'] ,data['EndDatum'] ,data['Status'], data['FahrzeugID'] ,data['KundenID'] ,data['MitarbeiterID'])
+    else:
+        return render_template('reservation.html')
+    return redirect(url_for('reservation'))
+@app.route('/reservation_success', methods=['GET', 'POST'])
+def reservation_success():
+    return render_template('reservation_success.html')
+
+@app.route('/registration', methods=['POST', 'GET'])
 def registration():
-    data = request.form.to_dict()
-    add_kunde(data['vorname'], data['nachname'], data['geburtsdatum'], data['adresse_plz'], data['adresse_strasse'],
+    if request.method == 'POST':
+        data = request.form.to_dict()
+        print(data)
+        add_kunde(data['vorname'], data['nachname'], data['geburtsdatum'], data['adresse_plz'], data['adresse_strasse'],
               data['adresse_wohnort'], data['fuehrerscheinnummer'], data['fuehrerscheinklasse'], data['telefonnummer'],
               data['email'], data['passwort'])
-    return redirect(url_for('registration_success'))
+    else:
+        return render_template('registration.html')
+    return redirect(url_for('registration'))
 
 @app.route('/registration_success')
 def registration_success():

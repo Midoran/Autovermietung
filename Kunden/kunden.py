@@ -14,6 +14,19 @@ def add_kunde(vorname, nachname, geburtsdatum, adresse_plz, adresse_strasse, adr
     conn.commit()
     conn.close()
 
+    return {
+        'vorname': vorname,
+        'nachname': nachname,
+        'geburtsdatum': geburtsdatum,
+        'adresse_plz': adresse_plz,
+        'adresse_strasse': adresse_strasse,
+        'adresse_wohnort': adresse_wohnort,
+        'fuehrerscheinnummer': fuehrerscheinnummer,
+        'fuehrerscheinklasse': fuehrerscheinklasse,
+        'telefonnummer': telefonnummer,
+        'email': email,
+        'passwort': passwort
+    }
 
 def get_kunden():
     conn = connect_to_database()

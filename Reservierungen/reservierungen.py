@@ -14,7 +14,16 @@ def add_reservierung(kilometerstand, startdatum, enddatum, status, fahrzeug_id, 
     conn.commit()
     conn.close()
 
+    return {
+        'kilometerstand': kilometerstand,
+        'startdatum': startdatum,
+        'enddatum': enddatum,
+        'status': status,
+        'fahrzeug_id': fahrzeug_id,
+        'kunden_id': kunden_id,
+        'mitarbeiter_id': mitarbeiter_id,
 
+    }
 def get_reservierungen():
     conn = connect_to_database()
     cursor = conn.cursor()

@@ -17,20 +17,20 @@
       </div>
 
       <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
-        <li><a href="index.html" class="nav-link px-2 link-secondary">Home</a></li>
-        <li><a href="search.html" class="nav-link px-2">Autosuchen</a></li>
-        <li><a href="list.html" class="nav-link px-2">Preisliste</a></li>
-        <li><a href="faq.html" class="nav-link px-2">FAQ</a></li>
-        <li><a href="introduction.html" class="nav-link px-2">Über uns</a></li>
+        <li><a href="/index" class="nav-link px-2 link-secondary">Home</a></li>
+        <li><a href='/search' class="nav-link px-2">Autosuchen</a></li>
+        <li><a href="/list" class="nav-link px-2">Preisliste</a></li>
+        <li><a href="/faq" class="nav-link px-2">FAQ</a></li>
+        <li><a href="/introduction" class="nav-link px-2">Über uns</a></li>
       </ul>
 
       <div class="col-md-3 text-end">
         {% if 'user_id' in session %}
-        <a href="registration.html" class="btn btn-outline-primary me-2 link-secondary">Ausloggen</a>
-        <a href="my_account.html" class="btn btn-primary">Mein Konto</a>
+        <a href="/registration" class="btn btn-outline-primary me-2 link-secondary">Ausloggen</a>
+        <a href="/my_account" class="btn btn-primary">Mein Konto</a>
     {% else %}
-        <a href="login.html" class="btn btn-outline-primary me-2 link-secondary">Einloggen</a>
-        <a href="registration.html" class="btn btn-primary">Registrieren</a>
+        <a href="/login" class="btn btn-outline-primary me-2 link-secondary">Einloggen</a>
+        <a href="/registration" class="btn btn-primary">Registrieren</a>
     {% endif %}
       </div>
     </header>
@@ -40,11 +40,11 @@
           <img src="../static/images/Auto.jpg" class="d-block mx-lg-auto img-fluid" alt="Car Image" loading="lazy" width="700" height="500">
         </div>
         <div class="col-lg-6">
-          <h1 class="display-5 fw-bold text-body-emphasis lh-1 mb-3">Willkommen zu SDJ Autovermieten!</h1>
+          <h1 class="display-5 fw-bold text-body-emphasis lh-1 mb-3">Willkommen zur Autovermietung SDJ!</h1>
           <p class="lead">Suchen Sie ein geeignetes Auto für Sie für vernünftige Preise!</p>
           <div class="d-grid gap-2 d-md-flex justify-content-md-start">
-            <button type="button" class="btn btn-primary btn-lg px-4 me-md-2"><a href="search.html" class="nav-link px-2">Suchen</a></button>
-            <button type="button" class="btn btn-outline-secondary btn-lg px-4"><a href="introduction.html" class="nav-link px-2">Über uns</a></button>
+            <button type="button" class="btn btn-primary btn-lg px-4 me-md-2"><a href="/search" class="nav-link px-2">Suchen</a></button>
+            <button type="button" class="btn btn-outline-secondary btn-lg px-4"><a href="/introduction" class="nav-link px-2">Über uns</a></button>
           </div>
         </div>
       </div>
