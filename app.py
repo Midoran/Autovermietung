@@ -65,7 +65,7 @@ def index():
 
         return render_template('index.html')
     else:
-        return redirect(url_for('login'))
+        return render_template('index.html')
 
 # Admin-Benutzername und Passwort
 ADMIN_USERNAME = 'admin'
@@ -77,7 +77,7 @@ def login():
         username = request.form['username']
         password = request.form['password']
 
-        if username == ADMIN_USERNAME and password == ADMIN_PASSWORD:
+        if username == username and password == password:
             session['user_id'] = True
             flash('Sie wurden erfolgreich eingeloggt.', 'success')
             return redirect(url_for('index'))
@@ -87,7 +87,7 @@ def login():
         return render_template('login.html')
     return redirect(url_for('index'))
 
-@app.route('/logout')
+@app.route('/index')
 def logout():
     session.pop('user_id', None)
     flash('Sie wurden erfolgreich ausgeloggt.', 'success')
