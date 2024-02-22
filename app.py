@@ -3,7 +3,7 @@
 # Importiert Flask, das Framework für die Webanwendung, und verschiedene Hilfsfunktionen und Module
 from flask import Flask, render_template, request, redirect, url_for, flash, session, jsonify, Blueprint
 # Importiert die Funktion zur Einrichtung der Datenbank
-from Database.database import setup_database
+from Database.database import setup_database, connect_to_database
 # Importiert Blueprints für die verschiedenen Ressourcen
 from Fahrzeuge.routes import fahrzeuge_bp
 from Kunden.routes import kunden_bp
@@ -41,7 +41,31 @@ app.secret_key = 'IhrGeheimesSchlüssel'
 # Weiterleitung von der Wurzel-URL zur Login-Seite
 @app.route('/')
 def index():
-    return render_template('index.html')
+    if 'user_id' in session:
+        conn = connect_to_database()
+
+        # Create a cursor
+        cursor = conn.cursor()
+
+        try:
+            # Execute the SELECT statement
+            cursor.execute("SELECT * FROM Kunden")
+
+            # Fetch all records
+            kunden_records = cursor.fetchall()
+
+            # Print the records to the console
+            for record in kunden_records:
+                print(record)
+
+        finally:
+            # Close the cursor and connection
+            cursor.close()
+            conn.close()
+
+        return render_template('index.html')
+    else:
+        return redirect(url_for('login'))
 
 # Admin-Benutzername und Passwort
 ADMIN_USERNAME = 'admin'
@@ -52,8 +76,9 @@ def login():
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
+
         if username == ADMIN_USERNAME and password == ADMIN_PASSWORD:
-            session['logged_in'] = True
+            session['user_id'] = True
             flash('Sie wurden erfolgreich eingeloggt.', 'success')
             return redirect(url_for('index'))
         else:
@@ -64,7 +89,7 @@ def login():
 
 @app.route('/logout')
 def logout():
-    session.pop('logged_in', None)
+    session.pop('user_id', None)
     flash('Sie wurden erfolgreich ausgeloggt.', 'success')
     return redirect(url_for('index'))
 
@@ -106,6 +131,7 @@ def registration():
     else:
         return render_template('registration.html')
     return redirect(url_for('registration_success'))
+  
 
 @app.route('/registration_success')
 def registration_success():

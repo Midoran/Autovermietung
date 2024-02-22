@@ -25,8 +25,8 @@
       </ul>
 
       <div class="col-md-3 text-end">
-        {% if 'user_id' in session %}
-        <a href="/registration" class="btn btn-outline-primary me-2 link-secondary">Ausloggen</a>
+    {% if 'user_id' in session %}
+        <a href="/index" class="btn btn-outline-primary me-2 link-secondary">Ausloggen</a>
         <a href="/my_account" class="btn btn-primary">Mein Konto</a>
     {% else %}
         <a href="/login" class="btn btn-outline-primary me-2 link-secondary">Einloggen</a>

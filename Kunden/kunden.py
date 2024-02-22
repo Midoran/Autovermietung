@@ -73,7 +73,7 @@ def populate_kunden():
     for kunde in kunden:
         add_kunde(*kunde)
 
-def authenticate_kunde(email, passwort):
+def authenticate_kunde(email, passwort, user_id):
     conn = connect_to_database()
     cursor = conn.cursor()
 
@@ -82,4 +82,4 @@ def authenticate_kunde(email, passwort):
     kunde = cursor.fetchone()
 
     conn.close()
-    return kunde
+    return user_id
