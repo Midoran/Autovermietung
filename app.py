@@ -19,8 +19,10 @@ from Rechnungen.rechnungen import populate_rechnungen
 from Standorte.standorte import populate_standorte
 from Wartungen.wartungen import populate_wartungen
 from Database.database import connect_to_database
-from Kunden.kunden import add_kunde, update_kunde, delete_kunde, get_kunden, authenticate_kunde, populate_kunden
-from Reservierungen.reservierungen import add_reservierung, populate_reservierungen, update_reservierung, connect_to_database, delete_reservierung, get_reservierungen
+from Kunden.kunden import add_kunde, update_kunde, delete_kunde, get_kunden, authenticate_kunde, populate_kunden, get_kunde_by_id
+from Reservierungen.reservierungen import add_reservierung, populate_reservierungen, update_reservierung, \
+    connect_to_database, delete_reservierung, get_reservierungen, check_if_vehicle_is_reserved, \
+    get_reservations_for_user
 import json
 import cx_Oracle
 from Database.sql_statements import get_create_table_statements, get_alter_table_statements
@@ -73,12 +75,17 @@ ADMIN_PASSWORD = 'password'
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
+    if session.get('logged_in'):
+        return redirect(url_for('index'))
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
 
-        if username == username and password == password:
-            session['user_id'] = True
+        kundeid = authenticate_kunde(username, password)
+
+        if kundeid is not None:
+            session['user_id'] = kundeid
+            session['logged_in'] = True
             flash('Sie wurden erfolgreich eingeloggt.', 'success')
             return redirect(url_for('index'))
         else:
@@ -87,10 +94,12 @@ def login():
         return render_template('login.html')
     return redirect(url_for('index'))
 
-@app.route('/index')
+@app.route('/logout')
 def logout():
-    session.pop('user_id', None)
-    flash('Sie wurden erfolgreich ausgeloggt.', 'success')
+    if session.get('logged_in'):
+        session.pop('logged_in', False)
+        session.pop('user_id', None)
+        flash('Sie wurden erfolgreich ausgeloggt.', 'success')
     return redirect(url_for('index'))
 
 @app.route('/search', methods=['GET', 'POST'])
@@ -108,17 +117,48 @@ def faq():
 @app.route('/introduction')
 def introduction():
     return render_template('introduction.html')
-@app.route('/reservation', methods=['POST', 'GET'])
+@app.route('/reservation', methods=['POST'])
 def reservation():
-    if request.method == 'POST':
-        data = request.form.to_dict()
-        add_reservierung(data['Kilometerstand'], data['StartDatum'] ,data['EndDatum'] ,data['Status'], data['FahrzeugID'] ,data['KundenID'] ,data['MitarbeiterID'])
+    if session.get('logged_in'):
+        if request.method == 'POST':
+            data = request.form.to_dict()
+            print(data)
+            add_reservierung(1, data['startDate'] ,data['endDate'] , 'a', data['vehicle_id'] ,session.get('user_id') ,1)
+            print(get_reservierungen())
+            return redirect(url_for('reservation_success'))
+        else:
+            return render_template('reservation.html')
     else:
-        return render_template('reservation.html')
-    return redirect(url_for('reservation'))
+        return redirect(url_for('login'))
+
+@app.route('/reservation/<int:fahrzeug_id>', methods=['GET'])
+def reservation_by_vehicle(fahrzeug_id):
+    if session.get('logged_in'):
+        return render_template('reservation.html', fahrzeug_id=fahrzeug_id)
+    else:
+        return redirect(url_for('login'))
+
 @app.route('/reservation_success', methods=['GET', 'POST'])
 def reservation_success():
     return render_template('reservation_success.html')
+
+@app.route('/my_reservations')
+def my_reservations():
+    # Assuming 'user_id' is stored in session when the user logs in
+    user_id = session['user_id']
+    # Fetch all reservations for the user from the database
+    # This is a placeholder function, replace it with your actual implementation
+    reservations = get_reservations_for_user(user_id)
+    return render_template('my_reservations.html', reservations=reservations)
+@app.route('/check_reservation', methods=['POST'])
+def check_reservation():
+    start_date = request.form['startDate']
+    end_date = request.form['endDate']
+    vehicle_id = request.form['vehicle_id']
+    # Query your database to check if the vehicle is reserved for the given date range
+    # This is a placeholder function, replace it with your actual implementation
+    is_reserved = check_if_vehicle_is_reserved(start_date, end_date, vehicle_id)
+    return jsonify({'is_reserved': is_reserved})
 
 @app.route('/registration', methods=['POST', 'GET'])
 def registration():
@@ -139,7 +179,9 @@ def registration_success():
 
 @app.route('/my_account')
 def my_account():
-    return redirect(url_for('my_account'))
+    if 'user_id' in session:
+        user = get_kunde_by_id(session['user_id'])
+        return render_template('my_account.html', user=user)
 
 # Hauptfunktion zum Starten der Anwendung
 def main():

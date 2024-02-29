@@ -123,3 +123,4 @@ def search_vehicles(rental_date, location):
                          vehicle['rental_date'] == rental_date and vehicle['location'] == location]
 
     return filtered_vehicles
+

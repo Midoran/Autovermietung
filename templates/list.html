@@ -18,10 +18,11 @@
 
       <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
         <li><a href="/index" class="nav-link px-2 link-secondary">Home</a></li>
-        <li><a href='/search' class="nav-link px-2">Autosuchen</a></li>
-        <li><a href="/list" class="nav-link px-2">Preisliste</a></li>
-        <li><a href="/faq" class="nav-link px-2">FAQ</a></li>
-        <li><a href="/introduction" class="nav-link px-2">Über uns</a></li>
+        <li><a href='/list' class="nav-link px-2">Autosuchen</a></li>
+
+          {% if 'user_id' in session %}
+            <li><a href="/my_reservations" class="nav-link px-2">Meine Reservierungen</a></li>
+          {% endif %}
       </ul>
 
       <div class="col-md-3 text-end">
@@ -54,12 +55,10 @@
               <li>Hersteller: Volkswagen</li>
               <li>Modell: Golf 5</li>
               <li>Baujahr: 2022</li>
-              <li>Preis: 58418.92€</li>
-              <li>Kilometerstand: 128545km </li>
               <li>Farzeugklasse: A</li>
               <div class="d-flex justify-content-between align-items-center">
                 <div class="btn-group">
-                  <button type="button" class="btn btn-sm btn-outline-secondary"><a href="/reservation" class="nav-link px-2 link-secondary">Reservieren</a></button>
+                  <button type="button" class="btn btn-sm btn-outline-secondary"><a href="/reservation/1" class="nav-link px-2 link-secondary">Reservieren</a></button>
                 </div>
               </div>
             </div>
@@ -73,12 +72,10 @@
               <li>Hersteller: Nissan</li>
               <li>Modell: Micra</li>
               <li>Baujahr: 20000</li>
-              <li>Preis: 38238.29€</li>
-              <li>Kilometerstand: 91257km</li>
               <li>Farzeugklasse: B</li>
               <div class="d-flex justify-content-between align-items-center">
                 <div class="btn-group">
-                  <button type="button" class="btn btn-sm btn-outline-secondary"><a href="/reservation" class="nav-link px-2 link-secondary">Reservieren</a></button>
+                  <button type="button" class="btn btn-sm btn-outline-secondary"><a href="/reservation/2" class="nav-link px-2 link-secondary">Reservieren</a></button>
                 </div>
               </div>
             </div>
@@ -91,12 +88,10 @@
               <li>Hersteller: Ford</li>
               <li>Modell: Focus</li>
               <li>Baujahr: 2006</li>
-              <li>Preis: 33799.79€</li>
-              <li>Kilometerstand: 156914km</li>
               <li>Farzeugklasse: B</li>
               <div class="d-flex justify-content-between align-items-center">
                 <div class="btn-group">
-                  <button type="button" class="btn btn-sm btn-outline-secondary"><a href="/reservation" class="nav-link px-2 link-secondary">Reservieren</a></button>
+                  <button type="button" class="btn btn-sm btn-outline-secondary"><a href="/reservation/3" class="nav-link px-2 link-secondary">Reservieren</a></button>
                 </div>
               </div>
             </div>
@@ -111,12 +106,10 @@
               <li>Hersteller: Volkswagen</li>
               <li>Modell: Golf Variant</li>
               <li>Baujahr: 2018</li>
-              <li>Preis: 34997.24€</li>
-              <li>Kilometerstand: 199540km</li>
               <li>Farzeugklasse: A</li>
               <div class="d-flex justify-content-between align-items-center">
                 <div class="btn-group">
-                  <button type="button" class="btn btn-sm btn-outline-secondary"><a href="/reservation" class="nav-link px-2 link-secondary">Reservieren</a></button>
+                  <button type="button" class="btn btn-sm btn-outline-secondary"><a href="/reservation/4" class="nav-link px-2 link-secondary">Reservieren</a></button>
                 </div>
               </div>
             </div>
@@ -130,12 +123,10 @@
               <li>Hersteller: Hyundai</li>
               <li>Modell: i20</li>
               <li>Baujahr: 2004</li>
-              <li>Preis: 66068.17€</li>
-              <li>Kilometerstand: 137722km</li>
               <li>Farzeugklasse: A</li>
               <div class="d-flex justify-content-between align-items-center">
                 <div class="btn-group">
-                  <button type="button" class="btn btn-sm btn-outline-secondary"><a href="/reservation" class="nav-link px-2 link-secondary">Reservieren</a></button>
+                  <button type="button" class="btn btn-sm btn-outline-secondary"><a href="/reservation/5" class="nav-link px-2 link-secondary">Reservieren</a></button>
                 </div>
                 <small class="text-body-secondary">9 mins</small>
               </div>
@@ -150,12 +141,10 @@
               <li>Hersteller: Nissan</li>
               <li>Modell: Quashquai</li>
               <li>Baujahr: 2018</li>
-              <li>Preis: 77075.99€</li>
-              <li>Kilometerstand: 74762km</li>
               <li>Farzeugklasse: B</li>
               <div class="d-flex justify-content-between align-items-center">
                 <div class="btn-group">
-                  <button type="button" class="btn btn-sm btn-outline-secondary"><a href="/reservation" class="nav-link px-2 link-secondary">Reservieren</a></button>
+                  <button type="button" class="btn btn-sm btn-outline-secondary"><a href="/reservation/6" class="nav-link px-2 link-secondary">Reservieren</a></button>
                 </div>
               </div>
             </div>
@@ -170,12 +159,10 @@
               <li>Hersteller: Honda</li>
               <li>Modell: Civic</li>
               <li>Baujahr: 2008</li>
-              <li>Preis: 32603.31€</li>
-              <li>Kilometerstand: 58931km</li>
               <li>Farzeugklasse: C</li>
               <div class="d-flex justify-content-between align-items-center">
                 <div class="btn-group">
-                  <button type="button" class="btn btn-sm btn-outline-secondary"><a href="/reservation" class="nav-link px-2 link-secondary">Reservieren</a></button>
+                  <button type="button" class="btn btn-sm btn-outline-secondary"><a href="/reservation/7" class="nav-link px-2 link-secondary">Reservieren</a></button>
                 </div>
               </div>
             </div>
@@ -189,12 +176,10 @@
               <li>Hersteller: Ford</li>
               <li>Modell: Fiesta</li>
               <li>Baujahr: 2017</li>
-              <li>Preis: 48656.65€</li>
-              <li>Kilometerstand: 166053km</li>
               <li>Farzeugklasse: A</li>
               <div class="d-flex justify-content-between align-items-center">
                 <div class="btn-group">
-                  <button type="button" class="btn btn-sm btn-outline-secondary"><a href="/reservation" class="nav-link px-2 link-secondary">Reservieren</a></button>
+                  <button type="button" class="btn btn-sm btn-outline-secondary"><a href="/reservation/8" class="nav-link px-2 link-secondary">Reservieren</a></button>
                 </div>
               </div>
             </div>
@@ -208,12 +193,10 @@
               <li>Hersteller: Volkswagen</li>
               <li>Modell: Tiguan</li>
               <li>Baujahr: 2018</li>
-              <li>Preis: 39534.56€</li>
-              <li>Kilometerstand: 125654km</li>
               <li>Farzeugklasse: A</li>
               <div class="d-flex justify-content-between align-items-center">
                 <div class="btn-group">
-                  <button type="button" class="btn btn-sm btn-outline-secondary"><a href="/reservation" class="nav-link px-2 link-secondary">Reservieren</a></button>
+                  <button type="button" class="btn btn-sm btn-outline-secondary"><a href="/reservation/9" class="nav-link px-2 link-secondary">Reservieren</a></button>
                 </div>
               </div>
             </div>
@@ -227,12 +210,10 @@
               <li>Hersteller: Mercedes</li>
               <li>Modell: E350</li>
               <li>Baujahr: 2009</li>
-              <li>Preis: 60915.85€</li>
-              <li>Kilometerstand: 87034km</li>
               <li>Farzeugklasse: B</li>
               <div class="d-flex justify-content-between align-items-center">
                 <div class="btn-group">
-                  <button type="button" class="btn btn-sm btn-outline-secondary"><a href="/reservation" class="nav-link px-2 link-secondary">Reservieren</a></button>
+                  <button type="button" class="btn btn-sm btn-outline-secondary"><a href="/reservation/10" class="nav-link px-2 link-secondary">Reservieren</a></button>
                 </div>
               </div>
             </div>

@@ -32,8 +32,13 @@
       </ul>
 
       <div class="col-md-3 text-end">
-        <button type="button" class="btn btn-outline-primary me-2"><a href="/login" class="nav-link px-2 link-secondary">Einloggen</a></button>
-        <button type="button" class="btn btn-primary"><a href="/registration" class="nav-link px-2">Registrieren</a></button>
+    {% if 'user_id' in session %}
+        <a href="/logout" class="btn btn-outline-primary me-2 link-secondary">Ausloggen</a>
+        <a href="/my_account" class="btn btn-primary">Mein Konto</a>
+    {% else %}
+        <a href="/login" class="btn btn-outline-primary me-2 link-secondary">Einloggen</a>
+        <a href="/registration" class="btn btn-primary">Registrieren</a>
+    {% endif %}
       </div>
     </header>
     <div class="container mt-5">

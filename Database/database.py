@@ -9,15 +9,14 @@ from Database.sql_statements import get_create_table_statements, get_alter_table
 # Verbindet sich mit der Datenbank, indem die Konfiguration aus einer JSON-Datei gelesen wird.
 def connect_to_database():
     # Öffnet die Konfigurationsdatei, um die Verbindungsdetails zu erhalten.
-    with open('C:/Users/Jeongmin.Lee/Autovermietung 18.02/Autovermietung/Database/config.json') as config_file:
-        config_data = json.load(config_file)
+
     
     # Liest die Benutzer-, Passwort-, Host-, Port- und Servicenamen aus der Konfigurationsdatei.
-    user = config_data.get('DATABASE_USER')
-    password = config_data.get('DATABASE_PASSWORD')
-    host = config_data.get('DATABASE_HOST')
-    port = config_data.get('DATABASE_PORT')
-    service_name = config_data.get('DATABASE_SERVICE')
+    user = 'Vermietung'
+    password = 'Gruppe4'
+    host = 'h2922093.stratoserver.net'
+    port = '1521'
+    service_name = 'orcl.stratoserver.net'
     
     # Erstellt einen DSN (Data Source Name) für die Oracle-Datenbankverbindung.
     dsn_tns = cx_Oracle.makedsn(host, port, service_name=service_name)

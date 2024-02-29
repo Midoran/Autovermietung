@@ -18,10 +18,10 @@
 
       <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
         <li><a href="/index" class="nav-link px-2 link-secondary">Home</a></li>
-        <li><a href='/search' class="nav-link px-2">Autosuchen</a></li>
-        <li><a href="/list" class="nav-link px-2">Preisliste</a></li>
-        <li><a href="/faq" class="nav-link px-2">FAQ</a></li>
-        <li><a href="/introduction" class="nav-link px-2">Über uns</a></li>
+        <li><a href='/list' class="nav-link px-2">Autosuchen</a></li>
+          {% if 'user_id' in session %}
+            <li><a href="/my_reservations" class="nav-link px-2">Meine Reservierungen</a></li>
+          {% endif %}
       </ul>
 
       <div class="col-md-3 text-end">
@@ -36,7 +36,7 @@
     </header>
     <div class="container mt-5">
         <h2>Reservierung</h2>
-        <form method="POST" action="{{ url_for('reservation_success') }}">
+        <form method="POST" action="{{ url_for('reservation') }}">
 
             <div class="form-group">
                 <label for="startDate">Anfangsdatum</label>
@@ -51,12 +51,28 @@
                 <label for="totalPrice">Gesamter Preis</label>
                 <input type="text" class="form-control" id="totalPrice" name="totalPrice" readonly>
             </div>
+            <input type="hidden" class="form-control" id="vehicle_id" name="vehicle_id", value="{{ fahrzeug_id }}" required>
+
 
 
             <button type="submit" class="btn btn-primary">Reservierung einreichen</button>
         </form>
     </div>
-
+    <script>
+$('#startDate, #endDate').change(function() {
+    var startDate = $('#startDate').val();
+    var endDate = $('#endDate').val();
+    var vehicle_id = $('#vehicle_id').val();
+    $.post('/check_reservation', {startDate: startDate, endDate: endDate, vehicle_id: vehicle_id}, function(data) {
+        if (data.is_reserved) {
+            alert('This vehicle is already reserved for the selected date.');
+            $('#submit').prop('disabled', true);
+        } else {
+            $('#submit').prop('disabled', false);
+        }
+    });
+});
+    </script>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.0.8/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>

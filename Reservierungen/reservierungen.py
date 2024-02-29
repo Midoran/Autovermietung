@@ -8,7 +8,7 @@ def add_reservierung(kilometerstand, startdatum, enddatum, status, fahrzeug_id, 
     cursor = conn.cursor()
 
     query = """INSERT INTO Reservierungen (Kilometerstand, StartDatum, EndDatum, Status, FahrzeugID, KundenID, MitarbeiterID) 
-               VALUES (:1, TO_DATE(:2, 'DD-MM-YYYY'), TO_DATE(:3, 'DD-MM-YYYY'), :4, :5, :6, :7)"""
+               VALUES (:1, TO_DATE(:2, 'YYYY-MM-DD'), TO_DATE(:3, 'YYYY-MM-DD'), :4, :5, :6, :7)"""
     cursor.execute(query, (kilometerstand, startdatum, enddatum, status, fahrzeug_id, kunden_id, mitarbeiter_id))
 
     conn.commit()
@@ -68,3 +68,73 @@ def populate_reservierungen():
     ]
     for reservierung in reservierungen:
         add_reservierung(*reservierung)
+
+
+def check_if_vehicle_is_reserved(start_date, end_date, vehicle_id):
+    """
+    Checks if a vehicle is reserved for a specific date range.
+
+    Parameters:
+        start_date (str): The start date of the range to check.
+        end_date (str): The end date of the range to check.
+        vehicle_id (int): The ID of the vehicle to check.
+
+    Returns:
+        bool: True if the vehicle is reserved for any date within the range, False otherwise.
+    """
+    # Connect to the database
+    conn = connect_to_database()
+    cursor = conn.cursor()
+
+    # Define the SQL statement to check the reservation
+    query = "SELECT * FROM Reservierungen WHERE FahrzeugID = :1 AND ((StartDatum BETWEEN :2 AND :3) OR (EndDatum BETWEEN :2 AND :3))"
+
+    # Execute the SQL statement, replacing :1 with `vehicle_id`, :2 with `start_date`, and :3 with `end_date`
+    cursor.execute(query, (vehicle_id, start_date, end_date))
+
+    # Fetch the results
+    results = cursor.fetchall()
+
+    # Close the database connection
+    conn.close()
+
+    return len(results) > 0
+
+def get_reservations_for_user(user_id):
+    """
+    Fetches all reservations for a specific user from the database.
+
+    Parameters:
+        user_id (int): The ID of the user.
+
+    Returns:
+        list: A list of all reservations for the user.
+    """
+    # Connect to the database
+    conn = connect_to_database()
+    cursor = conn.cursor()
+
+    # Define the SQL statement to fetch the reservations
+    query = "SELECT * FROM Reservierungen WHERE KundenID = :1"
+
+
+    # Execute the SQL statement, replacing :1 with `user_id`
+    cursor.execute(query, (user_id,))
+
+    # Fetch the results
+    results = cursor.fetchall()
+
+    reservations = [
+        {
+            'id': row[0],
+            'start_date': row[2],
+            'end_date': row[3],
+            'vehicle_id': row[4]
+        }
+        for row in results
+    ]
+
+    # Close the database connection
+    conn.close()
+
+    return reservations
